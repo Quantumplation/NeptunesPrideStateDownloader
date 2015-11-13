@@ -91,15 +91,15 @@ namespace NeptunesPrideStateDownloader
                 var json = Encoding.UTF8.GetString(res);
                 dynamic state = JsonConvert.DeserializeObject(json);
 
-                // I suspect tick is absolute tick and fragment is the tick within the production cycle.
-                long tick = state.report.tick, turn = state.report.productions, fragment = state.report.tick_fragment, player = state.report.player_uid;
+                // Thanks to Quantumplation for figuring out which tick was which
+                long tick = state.report.tick, player = state.report.player_uid;
 
-                var filename = $"gamestate_{player:00}_{tick:00000000}_{turn:0000}_{fragment:0000}.json";
+                var filename = $"gamestate_{player:00}_{tick:00000000}.json";
 
                 var path = Path.Combine(downloadDir.FullName, filename);
                 if (!File.Exists(path))
                 {
-                    Console.WriteLine($"Found new tick {tick} (turn {turn}.{fragment}), saving state.");
+                    Console.WriteLine($"Found new tick: {tick}, saving state.");
                     File.WriteAllText(path, json);
                 }
                 ct.WaitHandle.WaitOne(TimeSpan.FromSeconds(refresh));
