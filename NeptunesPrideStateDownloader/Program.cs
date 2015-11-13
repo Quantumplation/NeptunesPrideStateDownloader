@@ -53,6 +53,8 @@ namespace NeptunesPrideStateDownloader
                 return;
             }
 
+            Console.WriteLine("We're in!");
+
             Console.CancelKeyPress += (sender, eventArgs) =>
             {
                 _cancellationTokenSource.Cancel();
@@ -64,6 +66,7 @@ namespace NeptunesPrideStateDownloader
                 dir.Create();
 
             // Do the thing
+            Console.WriteLine("Please be patient while we monitor your every move.");
             Task.WaitAll(GetStates(dir, game, refresh, _cancellationTokenSource.Token));
 
             WriteDone();
@@ -72,7 +75,7 @@ namespace NeptunesPrideStateDownloader
         private static void WriteDone()
         {
             Console.WriteLine();
-            Console.WriteLine("Done.");
+            Console.WriteLine("It's over!");
             Console.ReadKey();
         }
 
